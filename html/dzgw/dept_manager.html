@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部门管理</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800' rel='stylesheet'
+        type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:300,200,100' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+    <link href="js/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="js/bootstrap.switch/bootstrap-switch.css" />
+    <link rel="stylesheet" type="text/css" href="js/bootstrap.datetimepicker/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" type="text/css" href="js/jquery.select2/select2.css" />
+    <link rel="stylesheet" type="text/css" href="js/bootstrap.slider/css/slider.css" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="http://www.sucai8.cn/jquery/font-awesome.4.6.0.css">
+    <link rel="stylesheet" href="css/pygments.css">
+    <link rel="stylesheet" type="text/css" href="js/jquery.nanoscroller/nanoscroller.css" />
+</head>
+
+<body>
+    <!-- 新建部门 -->
+    <div class="row">
+        <div class="col-md-12 column">
+            <ul class="breadcrumb">
+                <li>
+                    <a>首页</a>
+                </li>
+                <li>
+                    <a>部门管理</a>
+                </li>
+                <li>
+                    <a class="active" id="pagename">部门管理</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="block-flat">
+                <div class="header">
+                    <h3 id="pagename">部门管理</h3>
+                </div>
+                <div class="content">
+                    <div class="table-responsive">
+                        <table class="table no-border hover">
+                            <thead class="no-border">
+                                <tr>
+                                    <th style="width:2%;"><input type="checkbox" /></th>
+                                    <th style="width:10%;"><strong>部门id</strong></th> 
+                                    <th class="width:10%;"><strong>部门名称</strong></th>
+                                    <th style="width:10%;"><strong>负责人</strong></th>
+                                    <th style="width:10%;"><strong>手机号</strong></th>
+                                    <th style="width:10%;"><strong>email</strong></th> 
+                                    <th style="width:10%;"><strong>创建时间</strong></th>
+                                    <th style="width:10%;" class="text-center"><strong>操作</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody class="no-border-y" id="user_lists"> 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.parsley/dist/parsley.min.js" type="text/javascript"></script>
+<script src="js/jquery.parsley/src/extra/dateiso.js" type="text/javascript"></script>
+<script src="js/jquery.select2/select2.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.slider/js/bootstrap-slider.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/jquery.nanoscroller/jquery.nanoscroller.js"></script>
+<script type="text/javascript" src="js/jquery.nestable/jquery.nestable.js"></script>
+<script type="text/javascript" src="js/behaviour/general.js"></script>
+<script src="js/jquery.ui/jquery-ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/bootstrap.switch/bootstrap-switch.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="./js/config.js"></script>
+<script src="./js/http.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //initialize the javascript
+        App.init();
+        $('form').parsley();
+    });
+
+
+    init_page();
+
+
+
+    function init_page() {
+        var res = doPost("/user/getalldept", '', '');
+        if (res.code == 200) {
+            var html = '';
+            for (var i = 0; i < res.data.length; i++) {
+                html += '<tr>';
+                html += '    <td><input type="checkbox" /></td>';
+                html += '    <td>' + res.data[i].dept_id + '</td>';
+                html += '    <td>' + res.data[i].dept_name + '</td>';
+                html += '    <td>' + res.data[i].leader + '</td>'; 
+                html += '    <td>' + res.data[i].phone + '</td>';
+                html += '    <td>' + res.data[i].email + '</td>';  
+                
+                var date = new Date(res.data[i].create_time);
+                html += '    <td>' + dateFormat(date);  + '</td>';
+                html += '    <td class="text-center">';
+                html += '        <a class="label label-default" href="./create_dept.html?id='+res.data[i].dept_id+'">';
+                html += '            <i class="fa fa-pencil" ></i>';
+                html += '        </a> ';
+                html += '        <a class="label label-danger">';
+                html += '            <i class="fa fa-times" onclick="delete_new(' + res.data[i].dept_id + ')"></i>';
+                html += '        </a>';
+                html += '    </td>';
+                html += '</tr>';
+            }
+        }
+        $("#user_lists").html(html);
+    }
+
+     
+
+    function dateFormat(date) {
+        console.log("时间",showTime(date.getHours()));
+        var year = date.getFullYear();                // 年
+        var month = showTime(date.getMonth() + 1);        // 月
+        var week = showTime(date.getDay());           // 星期
+        var day = showTime(date.getDate());          // 日
+        var hours = showTime(date.getHours());         // 小时
+        var minutes = showTime(date.getMinutes());    // 分钟
+        var second = showTime(date.getSeconds());     // 秒
+        var str = '';
+        str = str + year + '-' + month + '-' + day;
+        return str; 
+    }  
+
+    function delete_new(id){
+        var flag = confirm("是否删除部门"+id);
+        if(flag){
+            var res = doPost("/user/delectdept",'{"dept_id":'+id+'}','');
+            init_page();
+        }
+    }
+
+    // 封装一个不够两位数就补零的函数
+    function showTime(t) {
+        var time
+        time = t > 10 ? t : '0' + t
+        return time
+    } 
+
+</script>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/behaviour/voice-commands.js"></script>
+<script src="js/bootstrap/dist/js/bootstrap.min.js"></script>
+
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.moehu.back.dao.MessageDao">
+    <!--发布作品-->
+    <insert id="addMessage" parameterType="com.moehu.back.model.MessageModel">
+        INSERT INTO moehu_message(`message_id`,`message_content`, `message_type`, `message_time`, `message_state`, `user_id`,`submit_user`)
+        VALUES (#{message_id}, #{message_content},#{message_type}, now() ,#{message_state} , #{user_id} , #{submit_user})
+    </insert>
+
+    <select id="getMessage" resultType="com.moehu.back.model.MessageModel">
+        select * from  moehu_message where message_state = #{message_state}
+    </select>
+
+    <delete id="delMessage" parameterType="Integer">
+        delete from  moehu_message where message_id = #{message_id}
+    </delete>
+
+    <select id="getUserFollowList" parameterType="Integer" resultType="Integer">
+        select user_source_id from  moehu_follow where user_to_id = #{user_to_id}
+    </select>
+
+    <select id="getMessageByUserId" resultType="com.moehu.back.model.MessageModel">
+         select * from  moehu_message where user_id = #{user_id} and message_state = 1 and message_isread=0
+    </select>
+
+    <insert id="addonline" parameterType="com.moehu.back.model.OnlineModel">
+        INSERT INTO moehu_useronline(`user_id`, `lastlogin_time`) VALUES (#{user_id}, #{lastlogin_time})
+    </insert>
+    
+    <delete id="delonline" parameterType="Integer">
+        DELETE FROM moehu_useronline WHERE `user_id` = #{user_id}
+    </delete>
+
+    <select id="getMessageByType" parameterType="com.moehu.back.model.MessageModel" resultType="com.moehu.back.model.MessageModel">
+        select  * from moehu_message where user_id  = #{user_id} and message_type = #{message_type} and message_state=1 or message_state=0
+    </select>
+
+    <insert id="sendMessage" parameterType="com.moehu.back.model.ChatRoomModel">
+        INSERT INTO
+        moehu_chatroom(`chatroom_id`, `create_time`, `submit_id`, `chatroom_num`, `user_1`, `user_2`, `user_3`, `user_4`, `user_5`) VALUES (#{chatroom_id}, now(), #{submit_id}, #{chatroom_num}, #{user_1}, #{user_2}, #{user_3}, #{user_4}, #{user_5})
+    </insert>
+    
+    <select id="getMyChatRoom" parameterType="Integer" resultType="com.moehu.back.model.ChatRoomModel">
+        select * from  moehu_chatroom where (user_1=#{user_id} or user_2 = #{user_id} )and is_del = 0
+    </select>
+    
+    <select id="ChatIsExist" resultType="Integer" parameterType="Integer">
+        select count(*) from moehu_chatroom where ((user_1=#{user_1} and user_2=#{user_2}) or (user_1=#{user_2} and user_2=#{user_1}))and is_del = 0;
+    </select>
+
+    <insert id="saveMassage" parameterType="com.moehu.back.model.ChatRecordModel">
+        INSERT INTO moehu_record (`record_id`, `record_content`, `chatroom_id`, `submit_time`, `submit_user`, `record_state`) VALUES (#{record_id}, #{record_content}, #{chatroom_id}, now(), #{submit_user}, 0)
+    </insert>
+
+    <select id="getmessagerecord" parameterType="Integer" resultType="com.moehu.back.model.ChatRecordModel">
+        select * from moehu_record where chatroom_id = #{chatroom_id} order by submit_time ASC
+    </select>
+
+    <update id="setIsRead" parameterType="Integer" >
+        update moehu_record set record_state = 1 where chatroom_id = #{chatroom_id}
+    </update>
+
+    <select id="getNotReadNum" parameterType="Integer" resultType="com.moehu.back.model.ChatRecordModel">
+        select * from moehu_record where chatroom_id = #{chatroom_id} and record_state=0
+    </select>
+
+    <update id="delChatRoom" parameterType="Integer">
+        update moehu_chatroom set is_del = 1 where chatroom_id = #{chatroom_id}
+    </update>
+
+    <update id="setMessageIsRead" parameterType="com.moehu.back.model.MessageModel">
+        update moehu_message set message_isread = 1 where user_id  = #{user_id} and message_type = #{message_type} and message_state=1 or message_state=0
+    </update>
+
+    <select id="getWhisperNum" parameterType="Integer" resultType="Integer">
+        select count(*) from moehu_record where record_id=#{user_id} and record_state = 0
+    </select>
+
+</mapper>

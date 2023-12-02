@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.moehu.back.dao.UserDao_new">
+    <insert id="adddept" parameterType="com.moehu.back.model.salary.DeptModel">
+        insert into sys_dept(dept_name,leader,phone,email)
+            values (#{dept_name},#{leader},#{phone},#{email})
+    </insert>
+
+    <select id="getdeptbyid" parameterType="Integer" resultType="com.moehu.back.model.salary.DeptModel">
+        select * from sys_dept where dept_id = #{dept_id}
+    </select>
+
+    <update id="updatedept" parameterType="com.moehu.back.model.salary.DeptModel">
+        update sys_dept set dept_name = #{dept_name},leader = #{leader},phone = #{phone},email = #{email}
+                where dept_id = #{dept_id}
+    </update>
+
+    <insert id="adduser" parameterType="com.moehu.back.model.salary.UserModel">
+        insert into sys_user(dept_id,user_name,email,phonenumber,sex,age,password,xl,work)
+                    values (#{dept_id},#{user_name},#{email},#{phonenumber},#{sex},#{age},#{password},#{xl},#{work})
+    </insert>
+
+    <update id="updateuser" parameterType="com.moehu.back.model.salary.UserModel">
+        update sys_user
+                set
+                    dept_id=#{dept_id},user_name=#{user_name},email=#{email},phonenumber=#{phonenumber},sex=#{sex},age=#{age},password=#{password},xl=#{xl},work=#{work}
+                where user_id = #{user_id}
+    </update>
+
+    <select id="getalldept" resultType="com.moehu.back.model.salary.DeptModel">
+        select * from sys_dept where del_flag != 1 order by create_time desc
+    </select>
+
+    <select id="getuserbyid" resultType="com.moehu.back.model.salary.UserModel" parameterType="Integer">
+        select * from sys_user where user_id = #{user_id}
+    </select>
+
+    <insert id="addLeave" parameterType="com.moehu.back.model.salary.LeaveModel">
+        insert into sys_leave(user_id,content,start_time,end_time,time_num)
+            values (#{user_id},#{content},#{start_time},#{end_time},#{time_num})
+    </insert>
+
+    <insert id="addclockin" parameterType="com.moehu.back.model.salary.ClockInModel">
+        insert into sys_clockin(time,user_id,islate)values (#{time},#{user_id},#{islate})
+    </insert>
+
+    <insert id="addovertime" parameterType="com.moehu.back.model.salary.OverTimeModel">
+        insert into sys_overtime(user_id,content,start_time,end_time,time_num)
+        values (#{user_id},#{content},#{start_time},#{end_time},#{time_num})
+    </insert>
+
+    <insert id="addtrip" parameterType="com.moehu.back.model.salary.TripModel">
+        insert into sys_trip(user_id,content,start_time,end_time,time_num)
+        values (#{user_id},#{content},#{start_time},#{end_time},#{time_num})
+    </insert>
+
+    <select id="getallleave" resultType="com.moehu.back.model.salary.LeaveModel">
+        select * from sys_leave where status = 0 order by create_time desc
+    </select>
+
+    <select id="getallleavebyid" parameterType="Integer" resultType="com.moehu.back.model.salary.LeaveModel">
+        select * from sys_leave where status = 1 and user_id = #{user_id} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=  create_time
+    </select>
+
+    <select id="getallovertimebyid" parameterType="Integer" resultType="com.moehu.back.model.salary.OverTimeModel">
+        select * from sys_overtime where user_id = #{user_id} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=  create_time
+    </select>
+
+    <select id="getalltripbyid" parameterType="Integer" resultType="com.moehu.back.model.salary.TripModel">
+        select * from sys_trip where user_id = #{user_id} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=  create_time
+    </select>
+
+    <select id="getcdbyid" resultType="Integer" parameterType="Integer">
+        select count(*) from sys_clockin where user_id = #{user_id} and DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;=  time
+    </select>
+
+    <update id="updateleavestatus" parameterType="com.moehu.back.model.salary.LeaveModel">
+        update sys_leave set status = #{status} where id = #{id}
+    </update>
+
+    <update id="setgz" parameterType="com.moehu.back.model.salary.UserModel">
+        update sys_user set gz = #{gz} where user_id = #{user_id}
+    </update>
+
+    <select id="getalluser" resultType="com.moehu.back.model.salary.UserModel">
+        select * from sys_user where del_flag !=1 order by create_time desc
+    </select>
+
+
+    <update id="delectuser" parameterType="com.moehu.back.model.salary.UserModel">
+        update sys_user set del_flag = 1 where  user_id = #{user_id}
+    </update>
+
+    <update id="delectdept" parameterType="com.moehu.back.model.salary.DeptModel">
+        update sys_dept set del_flag = 1 where  dept_id = #{dept_id}
+    </update>
+
+    <select id="getuserbyiphone" parameterType="String" resultType="com.moehu.back.model.salary.UserModel" >
+        select * from sys_user where phonenumber = #{phonenumber}
+    </select>
+
+    <select id="getgz" resultType="com.moehu.back.model.salary.GZModel" >
+        select * from sys_gz
+    </select>
+
+    <update id="updategz" parameterType="com.moehu.back.model.salary.GZModel">
+        update sys_gz set chidao =#{chidao},zaotui=#{zaotui},quanqin=#{quanqin},fanbu=#{fanbu},jiaobu=#{jiaobu},chaibu=#{chaibu},caibu=#{caibu},glbu=#{glbu},wx=#{wx},jbbu=#{jbbu}
+    </update>
+
+    <insert id="addgzt" parameterType="com.moehu.back.model.salary.GZNewModel">
+        insert into gz(user_id,user_name,base_gz,jt,qj,cd,jb,cc,rc,cb,mq,wx,gl,gs,zj)
+        values (#{user_id},#{user_name},#{base_gz},#{jt},#{qj},#{cd},#{jb},#{cc},#{rc},#{cb},#{mq},#{wx},#{gl},#{gs},#{zj})
+    </insert>
+
+    <select id="getgzt" parameterType="Integer" resultType="com.moehu.back.model.salary.GZNewModel">
+        select * from gz where user_id = #{user_id} order by create_time limit 1
+    </select>
+
+
+    <select id="getmygzt" parameterType="Integer" resultType="com.moehu.back.model.salary.GZNewModel">
+        select * from gz where user_id = #{user_id} order by create_time
+    </select>
+
+    <update id="updategzt" parameterType="com.moehu.back.model.salary.GZNewModel">
+        update gz set base_gz=#{base_gz},jt=#{jt},qj=#{qj},cd=#{cd},jb=#{jb},cc=#{cc},rc=#{rc},cb=#{cb},mq=#{mq},wx=#{wx},gl=#{gl},gs=#{gs},zj=#{zj}
+        where user_id = #{user_id}
+    </update>
+
+
+    <insert id="addgw" parameterType="com.moehu.back.model.GWModel">
+        insert into dzgw (gwbz,gwurl,user_id,file_id,re_user,re_name)values (#{gwbz},#{gwurl},#{user_id},#{file_id},#{re_user},#{re_name})
+    </insert>
+
+    <select id="getallgw" resultType="com.moehu.back.model.GWModel">
+        select * from dzgw order by create_time desc
+    </select>
+
+    <select id="getmyallgw" parameterType="Integer" resultType="com.moehu.back.model.GWModel">
+        select * from dzgw where user_id = #{user_id} and del_flag = 0 order by create_time desc
+    </select>
+
+    <select id="getmyreallgw" parameterType="Integer" resultType="com.moehu.back.model.GWModel">
+        select * from dzgw where re_user = #{user_id} and status = 1 order by create_time desc
+    </select>
+
+    <select id="getGWById" parameterType="Integer" resultType="com.moehu.back.model.GWModel">
+        select * from dzgw where id = #{id}
+    </select>
+
+<!--    <delete id="delGWById" parameterType="Integer">-->
+<!--        delete from dzgw where id = #{id}-->
+<!--    </delete>-->
+
+    <update id="delGWById" parameterType="Integer">
+        update dzgw set del_flag = 1  where id = #{id}
+    </update>
+
+    <update id="auditgw" parameterType="com.moehu.back.model.GWModel">
+        update dzgw set status = #{status} where id = #{id}
+    </update>
+
+    <insert id="addfile" parameterType="com.moehu.back.model.GWFileModel">
+        insert into gwfile (id,filepath,filename,fileurl) values (#{id},#{filepath},#{filename},#{fileurl})
+    </insert>
+
+    <select id="getGWFileById" parameterType="String" resultType="com.moehu.back.model.GWFileModel">
+        select * from gwfile where id = #{id}
+    </select>
+</mapper>

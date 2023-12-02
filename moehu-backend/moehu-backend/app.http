@@ -1,0 +1,459 @@
+### 用户注册
+POST http://127.0.0.1:8090/app/user/Reg
+Content-Type: application/json
+
+{
+  "user_phone": "15155145354",
+  "sms_code": "11111",
+  "user_nickname": "测试账号"
+}
+
+### 用户登录
+#POST https://api.moehu.net/app/user/Login
+POST http://127.0.0.1:8090/app/user/Login
+Content-Type: application/json
+
+{
+  "user_phone": "15155145354",
+  "sms_code": "11111"
+}
+
+
+### 获取用户基本信息
+POST http://127.0.0.1:8090/app/user/UserInfo
+#POST https://api.moehu.net/app/user/UserInfo
+Content-Type: application/json
+
+{
+  "user_id": 1
+}
+
+### 获取最新版本
+POST http://127.0.0.1:8090/app/tool/Update
+#POST https://api.moehu.net/app/tool/Update
+Content-Type: application/json
+
+{}
+
+
+### 获取最新版本
+POST http://127.0.0.1:8090/app/tool/addUpdateCount
+#POST https://api.moehu.net/app/tool/addUpdateCount
+Content-Type: application/json
+
+{
+  "update_id": 7
+}
+
+
+### 更新用户信息
+POST http://127.0.0.1:8090/app/user/EditUserInfo
+#POST https://api.moehu.net/app/user/EditUserInfo
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NTA1NDczNSwiaWF0IjoxNjIzNTE4NzM1fQ.Oe9dSk3qc7FdsZ4u-Tps3NzD-RSte2yPTj6BIFhicPk
+
+{
+  "user_head_img": "",
+  "user_nickname": "",
+  "user_autograph": "不知道啥签名好！",
+  "user_sex": "",
+  "user_birthday": ""
+}
+
+### 个人空间获取投稿作品
+POST http://127.0.0.1:8090/app/opus/OpusList
+#POST https://moehu.net/app/opus/OpusList
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NDYyMzYzNCwiaWF0IjoxNjIzMDg3NjM0fQ.G6TAh5kLDbYlMnrwqzWkQZEGO1HTYAkPwl3d86VbIlI
+
+{
+  "page": 1,
+  "count": 10,
+  "userid": 48
+}
+
+### 检查作品是否被收藏
+POST http://127.0.0.1:8090/app/opus/CheckOpusIsCollection
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2MzEzLCJpYXQiOjE2NDE5MzAzMTN9.8NeuGLMNiZH6JnNkl88eGAtFGeRs0w4G4Prb633BGAU
+
+{
+  "opus_id": 24
+}
+
+### 作品的搜索
+POST http://127.0.0.1:8090/app/opus/OpusSearch
+#POST https://moehu.net/app/opus/OpusSearch
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NTE5NTkwNywiaWF0IjoxNjIzNjU5OTA3fQ.6gwchOduXc0Qgyl2CTMQcfL7OQbgMLpvZWznE-b7gMY
+
+{
+  "keyword": "ODg2",
+  "type": "user",
+  "page": 1,
+  "count": 10
+}
+
+### 发布和回复评论
+POST http://127.0.0.1:8090/app/comment/add
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NDY5OTA5MywiaWF0IjoxNjIzMTYzMDkzfQ.1KsuO_31-h13yH7cUZCc6OTO30u8obT8bXk7lQ1v0bc
+
+{
+  "opus_id": 2,
+  "dynamic_id": "",
+  "comment_content": "测试动态的一级111",
+  "comment_reply_id": 0,
+  "comment_to_username": "哈哈哈",
+  "comment_type": 1
+}
+
+### 获取所有评论
+POST http://127.0.0.1:8090/app/comment/list
+#POST https://moehu.net/app/comment/list
+Content-Type: application/json
+
+{
+  "opus_id": 57,
+  "dynamic_id": "",
+  "page": 1,
+  "count": 10,
+  "comment_type": 1
+}
+
+### 删除评论
+POST http://127.0.0.1:8090/app/comment/delete
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1MTI1NTQ3MSwiaWF0IjoxNjE5NzE5NDcxfQ.Ejzo4Kx94suo4-Bafut_k-oq3rjOQjigW4TGeqVXAe0
+
+{
+  "comment_id": 65,
+  "level": 1
+}
+
+
+### 举报评论
+POST http://127.0.0.1:8090/app/comment/report
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1MTI1NTQ3MSwiaWF0IjoxNjE5NzE5NDcxfQ.Ejzo4Kx94suo4-Bafut_k-oq3rjOQjigW4TGeqVXAe0
+
+{
+  "comment_id": 65
+}
+
+### 作品详情
+POST http://127.0.0.1:8090/app/opus/OpusInfo
+#POST https://moehu.net/app/opus/OpusInfo
+Content-Type: application/json
+
+{
+  "opus_id": 57
+}
+
+
+### 发布作品
+POST http://127.0.0.1:8090/app/opus/PushOpus
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "opus_title": "测试作品2",
+  "opus_introduce": "不知道写啥介绍了2",
+  "opus_tags": ["游戏","美女"],
+  "opus_imgs": ["https://moehu.oss-cn-shanghai.aliyuncs.com/img/3cbf27abdeaf4a1889b35540c22dd1a7-image_picker8237324953817607310.jpg","https://moehu.oss-cn-shanghai.aliyuncs.com/img/ee5f823466f74adab43ed91d456d8f2f-SH5YOE4KAH%29HA%7E%7EV41NJSU1.jpg","https://moehu.oss-cn-shanghai.aliyuncs.com/img/125f8ae768af44cb8dc4cde6889e5aa8-image_picker2622047004534626946.jpg"],
+  "opus_jurisdiction": 1,
+  "opus_original": 1,
+  "opus_time": "测试发布时间",
+  "opus_syncDynamic": false
+}
+
+
+### 发布动态
+POST http://127.0.0.1:8090/app/dynamic/Push
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "dynamic_introduce": "测试发布动态的介绍2",
+  "dynamic_imgs": ["https://moehu.oss-cn-shanghai.aliyuncs.com/img/1.jpg","https://moehu.oss-cn-shanghai.aliyuncs.com/310.jpg","https://moehu.oss-cn-shanghai.aliyuncs.com/img/1946.jpg"]
+}
+
+### 个人空间获取动态
+POST http://127.0.0.1:8090/app/dynamic/PersonalDynamic
+#POST https://api.moehu.net/app/dynamic/PersonalDynamic
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "page": 1,
+  "count": 10,
+  "userid": 45
+}
+
+
+### 底部tabs导航的动态，获取动态列表
+POST http://127.0.0.1:8090/app/dynamic/TabsDynamic
+#POST https://moehu.net/app/dynamic/TabsDynamic
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "page": 1,
+  "count": 2
+}
+
+### 普通动态的详情
+#POST http://127.0.0.1:8090/app/dynamic/Info
+POST https://moehu.net/app/dynamic/Info
+Content-Type: application/json
+
+{
+  "dynamic_id": 43
+}
+
+### 记录动态的最常访问
+POST http://127.0.0.1:8090/app/dynamic/RecordHistory
+#POST http://120.27.144.174:8091/app/dynamic/RecordHistory
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1Mjk3OTI1OCwiaWF0IjoxNjIxNDQzMjU4fQ.jSSm0d6J1uTSXGFLv-MI0lhXn58-6jsCM_nLSoXDuTw
+Content-Type: application/json
+
+{
+  "user_to_id": 1
+}
+
+### 获取最常访问的列表
+#POST http://127.0.0.1:8090/app/dynamic/DynamicHistory
+POST http://120.27.144.174:8091/app/dynamic/DynamicHistory
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1Mjk3OTI1OCwiaWF0IjoxNjIxNDQzMjU4fQ.jSSm0d6J1uTSXGFLv-MI0lhXn58-6jsCM_nLSoXDuTw
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 1
+}
+
+### 获取【推荐】的作品
+POST http://127.0.0.1:8090/app/opus/Recommend
+#POST https://moehu.net/app/opus/Recommend
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 100
+}
+
+### 获取【排行】的作品
+POST http://127.0.0.1:8090/app/opus/Ranking
+#POST http://120.27.144.174:8091/app/opus/Ranking
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 100
+}
+
+### 【需要Token】获取【关注】的作品
+POST http://127.0.0.1:8090/app/opus/Follow
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NDYyMzQ2NiwiaWF0IjoxNjIzMDg3NDY2fQ.vH5CXrs56UD0maS-DKJ2oT9H75H2yEq5xkZXJUb9RE4
+
+{
+  "page": 1,
+  "count": 15
+}
+
+### 【需要Token】关注和取消关注接口
+#POST http://127.0.0.1:8090/app/opus/FollowUser
+POST https://moehu.net/app/opus/FollowUser
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NTAyMjA5MSwiaWF0IjoxNjIzNDg2MDkxfQ.XmPF2OrqahinqFXTwvw-gWN7L3dUUS-B9K4HRmN1cnQ
+
+{
+  "user_to_id": 18
+}
+
+### 个人空间【关注】获取我关注的所有用户
+POST http://127.0.0.1:8090/app/user/FollowUserList
+#POST https://moehu.net/app/user/FollowUserList
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "page": 1,
+  "count": 10
+}
+
+
+### 个人空间【粉丝】获取关注我的粉丝
+#POST http://127.0.0.1:8090/app/user/FansUserList
+POST https://moehu.net/app/user/FansUserList
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "page": 1,
+  "count": 10
+}
+
+
+
+### 【需要Token】检查当前用户是否被关注
+#POST http://127.0.0.1:8090/app/opus/CheckUserIsFollow
+POST https://moehu.net/app/opus/CheckUserIsFollow
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "user_to_id": 18
+}
+
+
+### 获取排行的作品
+POST http://120.27.144.174:8091/app/opus/Ranking
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 15
+}
+
+### 获取推荐的作品
+POST http://127.0.0.1:8090/app/opus/Recommend
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 15
+}
+
+### 获取标签下作品列表
+POST http://127.0.0.1:8090/app/tag/TagOpusList
+Content-Type: application/json
+
+{
+  "tags_title": "5bCP5aSr"
+}
+
+### 更新作品详情页是否允许编辑的状态
+POST http://127.0.0.1:8090/app/tag/UpdateTagsEditStatus
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NDQ0OTQwMSwiaWF0IjoxNjIyOTEzNDAxfQ.SjdweuxdXIAMya9xqKssBh2yJLj8pKbRUbb4i0oYjm4
+
+{
+  "opus_id": 36,
+  "edit_status": 0
+}
+
+### 【需要Token】创建标签的接口
+POST http://127.0.0.1:8090/app/tag/CreatedTags
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjE4MTk4OTY4LCJpYXQiOjE2MTc5ODI5Njh9.zBN85kc9wwtccHpQ-LidXBHuCuZ9vC4znTdWFXllDqo
+
+{
+  "tag_arr": ["测试1","吃啥2","测试3"]
+}
+
+
+### 【需要Token】详情页面创建标签接口
+POST http://127.0.0.1:8090/app/tag/OpusInfoCreatedTags
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1MzkxNjg0MywiaWF0IjoxNjIyMzgwODQzfQ.pvg00QbC1EtCtBc_55Dot0iqMC1TYYwaBl5zvoh_qLM
+
+{
+  "tags_title": "测试标签的标题",
+  "user_id": 18,
+  "opus_id": 2
+}
+
+### 【需要Token】获取用户创建的所有标签
+POST http://127.0.0.1:8090/app/tag/UserTagList
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+### 【需要Token】编辑标签
+POST http://127.0.0.1:8090/app/tag/EditTag
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjE4MTk4OTY4LCJpYXQiOjE2MTc5ODI5Njh9.zBN85kc9wwtccHpQ-LidXBHuCuZ9vC4znTdWFXllDqo
+
+{
+  "tags_id": 3,
+  "tags_title": "小夫-修改测试4"
+}
+
+### 【需要Token】删除标签
+POST http://127.0.0.1:8090/app/tag/DeleteTag
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjE4MTk4OTY4LCJpYXQiOjE2MTc5ODI5Njh9.zBN85kc9wwtccHpQ-LidXBHuCuZ9vC4znTdWFXllDqo
+
+{
+  "tags_id": 18
+}
+
+### 【需要Token】收藏 & 取消收藏 作品
+POST http://127.0.0.1:8090/app/opus/CollectionOpus
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTYxOTU1OTM2NiwiaWF0IjoxNjE5MzQzMzY2fQ.4otOHQdRsg5E61ooSXAafX7sMkH5lW6GE0EyZOse_GA
+
+{
+  "opus_id": 3
+}
+
+
+### 【需要Token】获取用户收藏的作品列表
+#POST http://127.0.0.1:8090/app/opus/CollectionOpusList
+POST https://moehu.net/app/opus/CollectionOpusList
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTYxOTU4NjA5MywiaWF0IjoxNjE5MzcwMDkzfQ.fhNlhh1J5ml1GTQ5GWGkOUFV9KRHesH1mVbO5QNqy7U
+
+{
+  "userid": 15
+}
+
+### 获取被收藏作品的详情图片
+#POST http://127.0.0.1:8090/app/opus/CollectionOpusInfo
+POST https://moehu.net/app/opus/CollectionOpusInfo
+Content-Type: application/json
+
+{
+  "opus_id": 57
+}
+
+### 作品的标签
+POST http://127.0.0.1:8090/app/tag/OpusTag
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "opus_id": 2
+}
+
+### 取消 & 点赞 接口
+POST http://127.0.0.1:8090/app/opus/UpvoteOpus
+#POST https://moehu.net/app/opus/UpvoteOpus
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "opus_id": 2,
+  "dynamic_id": ""
+}
+
+### 【需要Token】检查作品 & 动态 是否被点赞
+POST http://127.0.0.1:8090/app/opus/CheckIsUpvote
+#POST https://moehu.net/app/opus/CheckIsUpvote
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjczNDY2NjMzLCJpYXQiOjE2NDE5MzA2MzN9.Ia8QnNjHqqmVjc6eSI4H_T7LjvWzFgwW2cXacDcO41U
+
+{
+  "opus_id": 2,
+  "dynamic_id": ""
+}
+
+### 获取推荐标签
+POST http://127.0.0.1:8090/app/tag/RecommendTag
+Content-Type: application/json
+
+{
+  "page": 1,
+  "count": 15
+}

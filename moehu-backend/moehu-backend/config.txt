@@ -1,0 +1,135 @@
+Java 环境变量
+
+export JAVA_HOME=/root/jdk-11.0.10
+export JRE_HOME=\$JAVA_HOME/
+export PATH=$JAVA_HOME/bin:$PATH
+export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
+
+
+tomcat 环境变量
+
+export CATALINA_HOME=/root/tomcat
+export CLASSPATH=.:$JAVA_HOME/lib:$CATALINA_HOME/lib export PATH=$PATH:$CATALINA_HOME/bin
+
+
+maven 环境变量
+
+wget http://mirrors.hust.edu.cn/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+export MAVEN_HOME=/root/maven
+export PATH=$MAVEN_HOME/bin:$PATH
+
+
+mysql
+
+service mysqld stop
+service mysqld start
+
+
+mysql -V
+mysql -u root -p
+
+ALTER user 'root'@'localhost' IDENTIFIED BY 'lb714500';
+
+sudo /usr/local/mysql/support-files/mysql.server stop
+
+
+nginx 配置：https://www.cnblogs.com/boonya/p/7907999.html
+
+启动、停止nginx
+cd /usr/local/nginx/sbin/
+./nginx
+./nginx -s stop
+./nginx -s quit
+./nginx -s reload
+
+
+  nginx path prefix: "/usr/local/nginx"
+  nginx binary file: "/usr/local/nginx/sbin/nginx"
+  nginx modules path: "/usr/local/nginx/modules"
+  nginx configuration prefix: "/usr/local/nginx/conf"
+  nginx configuration file: "/usr/local/nginx/conf/nginx.conf"
+  nginx pid file: "/usr/local/nginx/logs/nginx.pid"
+  nginx error log file: "/usr/local/nginx/logs/error.log"
+  nginx http access log file: "/usr/local/nginx/logs/access.log"
+  nginx http client request body temporary files: "client_body_temp"
+  nginx http proxy temporary files: "proxy_temp"
+  nginx http fastcgi temporary files: "fastcgi_temp"
+  nginx http uwsgi temporary files: "uwsgi_temp"
+  nginx http scgi temporary files: "scgi_temp"
+
+
+scp /Users/bmy/Desktop/socketEnd.zip root@120.27.144.174:/root
+
+萌弧 moehu
+正式数据库密码：Lb714500.
+
+服务器密码：LBlb714500<??>
+
+密码：fa1e724e1791460e8bc79274afd02629
+
+阿里云账户：
+账户：虚拟纪元 密码：CFH19960117!
+
+管理后台地址：
+http://admin.moehu.net/#/login
+
+App下载页面地址：
+http://down.moehu.net/
+
+gitee 私人令牌 10c640f4f3fc45cbfeec389327505a6d
+
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTYxNzUxOTE2NywiaWF0IjoxNjE3MzAzMTY3fQ.z8hk6MaLRhwVG4qd8rV72nkYbSF9mOyy1TizmO9l9LQ
+
+
+#!/bin/bash 
+ 
+#export BUILD_ID=dontKillMe这一句很重要，这样指定了，项目启动之后才不会被Jenkins杀掉。
+export BUILD_ID=dontKillMe
+ 
+#指定最后编译好的jar存放的位置
+www_path=/root
+ 
+#Jenkins中编译好的jar位置
+jar_path=/var/lib/jenkins/workspace/mohue/target/
+ 
+#Jenkins中编译好的jar名称
+jar_name=back-0.0.1-SNAPSHOT.jar
+ 
+#获取运行编译好的进程ID，便于我们在重新部署项目的时候先杀掉以前的进程
+pid=$(cat /root/shaw-test-web.pid)
+ 
+#进入指定的编译好的jar的位置
+cd  ${jar_path}
+ 
+#将编译好的jar复制到最后指定的位置
+#cp  ${jar_path}/${jar_name} ${www_path}
+ 
+#进入最后指定存放jar的位置
+#cd  ${www_path}
+
+pwd
+
+#杀掉以前可能启动的项目进程
+kill -9 ${pid}
+
+echo ${jar_name}
+ 
+#启动jar，指定SpringBoot的profiles为test,后台启动
+java -jar ${jar_name} &
+ 
+#将进程ID存入到shaw-web.pid文件中
+echo $! > /root/shaw-test-web.pid
+
+
+1.本系统分为二种用户：系统管理员，员工
+2.登录功能：用户通过账号进入的登录系统，用户首次登录需要注册
+3.员工基本信息管理：包括信息的录入、修改（姓名，年龄，性别，工号，联系方式，邮箱地址，入职时间，部门，学历，职位，工龄等）。系统管理员登录时可对人员增删改查。
+4.工资信息管理：
+1）根据考勤对工资增减（迟到犯金，早退罚金，全勤奖金）。
+2）专项补贴（饭补、交通补贴、出差补贴、人才补贴等）。
+3）工龄补贴。
+4）部分职位的提成。
+5）五险一金、税收。
+6）出勤：a.请假天数及事由。b.加班时间(分为平时加班，周末加班，节假日加班)。c.出差天数
+工资根据上面几项以及对应岗位的薪酬计算。
+5.生成工资条

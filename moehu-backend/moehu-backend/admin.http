@@ -1,0 +1,88 @@
+### 用户登录
+POST http://127.0.0.1:8090/admin/user/Login
+Content-Type: application/json
+
+{
+  "admin_user_name": "moehu",
+  "admin_user_pwd": "111"
+}
+
+### 用户注册
+POST http://127.0.0.1:8090/admin/user/Reg
+Content-Type: application/json
+
+{
+  "admin_user_name": "moehu1",
+  "admin_user_pwd": "111"
+}
+
+### 删除某条更新
+POST http://127.0.0.1:8090/admin/tool/deleteUpdate
+#POST https://api.moehu.net/admin/tool/deleteUpdate
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "update_id": 2
+}
+
+### 获取作品列表
+POST http://127.0.0.1:8090/admin/opus/OpusAudit
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "page": 3,
+  "count": 10
+}
+
+### 进入作品详情
+POST http://127.0.0.1:8090/admin/opus/OpusInfo
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "opus_id": 34
+}
+
+
+### 通过 & 拒绝 审核接口
+POST http://127.0.0.1:8090/admin/opus/Approved
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "opus_id": 2,
+  "opus_status": 0
+}
+
+### 获取需要被审核的签名，昵称，头像 的数据列表
+POST http://127.0.0.1:8090/admin/user/UserVerifyList
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "page": 1,
+  "count": 10,
+  "type": "avatar",
+  "user_id": 15
+}
+
+### 对接口 UserVerifyList 进行审核
+POST http://127.0.0.1:8090/admin/user/UserReview
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNSIsImV4cCI6MTY1NTA1ODIyOSwiaWF0IjoxNjIzNTIyMjI5fQ.v2CuMf6jqQA2CjdtX4HedV-8zOIow4OnlPVbYG5FhHE
+
+{
+  "user_verify_id": 13,
+  "user_verify_status": 1
+}
+
+### 查看 UserVerifyList 的详情
+POST http://127.0.0.1:8090/admin/user/UserItemInfo
+Content-Type: application/json
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxIiwiZXhwIjoxNjU0NzA5MjY3LCJpYXQiOjE2MjMxNzMyNjd9.XG535nr2YtKXHipqxFZ48Zy5xP7BWPiQOId0Rfvizg8
+
+{
+  "user_verify_id": 4
+}

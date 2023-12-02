@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.moehu.back.dao.UserDao">
+
+    <select id="allUser" resultType="java.util.Map" parameterType="Integer">
+        select * from moehu_user
+    </select>
+
+    <select id="login" parameterType="com.moehu.back.model.UserModel" resultType="com.moehu.back.model.UserModel">
+        select * from moehu_user where user_phone = #{user_phone}
+    </select>
+
+
+    <select id="getFindById" resultType="com.moehu.back.model.UserModel">
+        select * from moehu_user where user_id = #{id}
+    </select>
+
+    <select id="getFindById1" resultType="com.moehu.back.model.UserModel">
+        select * from sys_user where user_id = #{id}
+    </select>
+
+    <insert id="userRegister" parameterType="com.moehu.back.model.UserModel" useGeneratedKeys="true" keyProperty="user_id">
+        INSERT INTO moehu_user(user_phone,user_nickname,user_uid,user_pwd,user_head_img,user_type,child_phone,class_id)
+        SELECT #{user_phone},#{user_nickname},#{user_uid},#{user_pwd},#{user_head_img},#{user_type},#{child_phone},#{class_id}
+        FROM DUAL WHERE NOT EXISTS(
+            SELECT * FROM moehu_user WHERE user_phone = #{user_phone}
+        )
+    </insert>
+
+
+    <select id="getuserbytype" parameterType="com.moehu.back.model.UserModel" resultType="com.moehu.back.model.UserModel">
+        select * from moehu_user where user_type = #{user_type} order by user_reg_time
+    </select>
+
+    <delete id="deluserbyid" parameterType="com.moehu.back.model.UserModel">
+        delete from moehu_user where user_id = #{user_id}
+    </delete>
+
+
+
+    <select id="getuserbyusertype" parameterType="com.moehu.back.model.UserModel" resultType="com.moehu.back.model.UserModel">
+        select * from moehu_user where user_type = #{user_type} order by user_reg_time desc
+    </select>
+
+    <update id="updateuser" parameterType="com.moehu.back.model.UserModel">
+        update moehu_user set child_phone=#{child_phone},user_autograph = #{user_autograph},user_phone=#{user_phone},user_nickname=#{user_nickname},user_pwd=#{user_pwd}
+                            <if test="user_type!=''">
+                                ,user_type=#{user_type}
+                            </if>
+                          where user_id = #{user_id}
+    </update>
+
+
+    <update id="updateuserclass" parameterType="com.moehu.back.model.UserModel">
+        update moehu_user set class_id = #{class_id} where user_id = #{user_id}
+    </update>
+
+    <select id="getFansNums" resultType="Integer">
+        SELECT COUNT(*) FROM moehu_follow WHERE user_to_id = #{id}
+    </select>
+
+    <select id="getSatisfiedNums" resultType="Integer">
+        SELECT sum(opus_satisfied) FROM moehu_opus WHERE user_id = #{id}
+    </select>
+
+    <select id="getFollowNums" resultType="Integer">
+        SELECT COUNT(*) FROM moehu_follow WHERE user_source_id = #{id}
+    </select>
+
+    <select id="FollowUserList" resultType="com.moehu.back.model.response.OpusSearchUser">
+        SELECT u.*
+        FROM moehu_follow f
+        LEFT JOIN moehu_user u
+        ON f.user_to_id = u.user_id
+        WHERE f.user_source_id = #{user_id}
+    </select>
+
+    <select id="FansUserList" resultType="com.moehu.back.model.response.OpusSearchUser">
+        SELECT u.*
+        FROM moehu_follow f
+        LEFT JOIN moehu_user u
+        ON f.user_source_id = u.user_id
+        WHERE f.user_to_id = #{user_id}
+    </select>
+
+
+    <select id="adminLogin" resultType="com.moehu.back.model.response.admin.UserLoginModel">
+        SELECT admin_user_id, admin_user_name, admin_user_type FROM
+        moehu_admin_user WHERE admin_user_name = #{admin_user_name} AND admin_user_pwd = #{admin_user_pwd}
+    </select>
+
+    <insert id="adminReg">
+        INSERT INTO moehu_admin_user(admin_user_name,admin_user_pwd) SELECT #{admin_user_name},#{admin_user_pwd}
+        FROM DUAL WHERE NOT EXISTS(
+                SELECT * FROM moehu_admin_user WHERE admin_user_name = #{admin_user_name} and admin_user_pwd = #{admin_user_pwd}
+            )
+    </insert>
+
+    <update id="UpdateUserInfo">
+        UPDATE moehu_user SET
+        <if test="user_sex != null and user_sex !=''">
+            user_sex = #{user_sex},
+        </if>
+        <if test="user_birthday != null and user_birthday !=''">
+            user_birthday = #{user_birthday},
+        </if>
+        user_id = #{user_id}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <!--插入需要被审核的用户头像，昵称，签名-->
+    <insert id="insertVerify">
+        INSERT INTO moehu_user_verify(user_id, user_head_img, user_nickname, user_autograph)
+        values (#{user_id}, #{user_head_img}, #{user_nickname}, #{user_autograph})
+    </insert>
+
+
+    <select id="UserVerifyList" resultType="com.moehu.back.model.UserVerify">
+        SELECT * FROM moehu_user_verify
+        <where>
+            <if test="type == 'avatar' ">
+                and user_head_img is not null and LENGTH(trim(user_head_img)) > 0
+            </if>
+            <if test="type == 'nickname' ">
+                and user_nickname is not null and LENGTH(trim(user_nickname)) > 0
+            </if>
+            <if test="type == 'signature' ">
+                and user_autograph is not null and LENGTH(trim(user_autograph)) > 0
+            </if>
+            <if test="user_id != null and user_id != ''">
+                and user_id = #{user_id}
+            </if>
+            <if test="user_verify_status != null and user_verify_status != ''">
+                and user_verify_status = #{user_verify_status}
+            </if>
+        </where>
+    </select>
+
+    <update id="UpdateVerifyStatus">
+        UPDATE moehu_user_verify SET user_verify_status = #{user_verify_status}
+        WHERE user_verify_id = #{user_verify_id}
+    </update>
+
+    <update id="UpdateUserTableItem">
+        UPDATE moehu_user SET
+        <if test="user_head_img != null and user_head_img !=''">
+            user_head_img = #{user_head_img},
+        </if>
+        <if test="user_nickname != null and user_nickname !=''">
+            user_nickname = #{user_nickname},
+        </if>
+        <if test="user_autograph != null and user_autograph !=''">
+            user_autograph = #{user_autograph},
+        </if>
+        user_id = #{user_id}
+        WHERE user_id = #{user_id}
+    </update>
+
+    <select id="UserItemInfo" resultType="com.moehu.back.model.UserVerify">
+        SELECT * FROM moehu_user_verify WHERE user_verify_id = #{user_verify_id}
+    </select>
+
+
+    <select id="UserVerifyOneInfo" resultType="com.moehu.back.model.UserModel">
+        SELECT u.*
+        FROM moehu_user u
+        LEFT JOIN moehu_user_verify r
+        ON u.user_id = r.user_id
+        WHERE r.user_verify_id = #{user_verify_id}
+    </select>
+
+    <select id="getUserByIphone" resultType="com.moehu.back.model.UserModel">
+        SELECT * FROM moehu_user WHERE user_phone = #{user_phone}
+    </select>
+
+    <select id="getUserById" resultType="com.moehu.back.model.UserModel">
+        SELECT * FROM moehu_user WHERE user_id = #{user_id}
+    </select>
+
+    <select id="getUserIdByPhone" resultType="Integer">
+        SELECT user_id FROM moehu_user WHERE user_phone = #{user_phone}
+    </select>
+
+
+
+    <update id="setTouImage" parameterType="com.moehu.back.model.UserModel">
+        UPDATE moehu_user SET `user_head_img` = #{user_head_img} WHERE user_id = #{user_id}
+    </update>
+
+
+    <update id="updateUserInfo" parameterType="com.moehu.back.model.UserModel" >
+        UPDATE moehu_user SET `user_email` = #{user_email}, `user_sex` = #{user_sex}, `user_work` = #{user_work}, `user_nickname` = #{user_nickname}, `user_birthday` = #{user_birthday}, `user_constellation` = #{user_constellation}, `user_autograph` = #{user_autograph} WHERE `user_id` = #{user_id}
+    </update>
+
+    <update id="changepassword" parameterType="Map">
+        update moehu_user set user_pwd=#{user_pwd} where user_id = #{user_id}
+    </update>
+
+    <select id="isnewuser" resultType="Integer" parameterType="Map">
+        select count(*) from moehu_user where user_phone = #{user_phone}
+    </select>
+
+</mapper>

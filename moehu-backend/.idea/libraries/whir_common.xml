@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="whir_common">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/moehu-backend/lib/whir_common.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/moehu-backend/lib/whir_common.jar!/" />
+    </SOURCES>
+  </library>
+</component>
